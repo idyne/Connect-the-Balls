@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a1211e89708435409fbd0c968b9f19f, type: 3}
+  m_Name: LevelData_5x6x6_11
+  m_EditorClassIdentifier: 
+  width: 6
+  length: 6
+  headPairs:
+  - type: {fileID: 11400000, guid: 9ef5a992abefc0d4ca483ef3be3a7145, type: 2}
+    a:
+      row: 1
+      col: 1
+    b:
+      row: 4
+      col: 4
+  - type: {fileID: 11400000, guid: c394999939f2b9d488359b4340176cf7, type: 2}
+    a:
+      row: 4
+      col: 1
+    b:
+      row: 0
+      col: 4
+  - type: {fileID: 11400000, guid: bf0d1c801009e4f48984851124e5c32c, type: 2}
+    a:
+      row: 1
+      col: 0
+    b:
+      row: 3
+      col: 2
+  - type: {fileID: 11400000, guid: 5ebcd273cb3681b46b0eb45fbe3a6948, type: 2}
+    a:
+      row: 5
+      col: 2
+    b:
+      row: 3
+      col: 0
+  - type: {fileID: 11400000, guid: ba3d37c50e968a443b882a9e6c336eb9, type: 2}
+    a:
+      row: 0
+      col: 0
+    b:
+      row: 2
+      col: 4
+  obstacles: []
+  solution:
+    paths:
+    - path:
+      - row: 1
+        col: 1
+      - row: 1
+        col: 2
+      - row: 2
+        col: 2
+      - row: 2
+        col: 3
+      - row: 3
+        col: 3
+      - row: 3
+        col: 4
+      - row: 4
+        col: 4
+    - path:
+      - row: 4
+        col: 1
+      - row: 4
+        col: 2
+      - row: 4
+        col: 3
+      - row: 5
+        col: 3
+      - row: 5
+        col: 4
+      - row: 5
+        col: 5
+      - row: 4
+        col: 5
+      - row: 3
+        col: 5
+      - row: 2
+        col: 5
+      - row: 1
+        col: 5
+      - row: 0
+        col: 5
+      - row: 0
+        col: 4
+    - path:
+      - row: 1
+        col: 0
+      - row: 2
+        col: 0
+      - row: 2
+        col: 1
+      - row: 3
+        col: 1
+      - row: 3
+        col: 2
+    - path:
+      - row: 5
+        col: 2
+      - row: 5
+        col: 1
+      - row: 5
+        col: 0
+      - row: 4
+        col: 0
+      - row: 3
+        col: 0
+    - path:
+      - row: 0
+        col: 0
+      - row: 0
+        col: 1
+      - row: 0
+        col: 2
+      - row: 0
+        col: 3
+      - row: 1
+        col: 3
+      - row: 1
+        col: 4
+      - row: 2
+        col: 4
