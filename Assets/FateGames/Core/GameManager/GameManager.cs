@@ -102,9 +102,9 @@ namespace FateGames.Core
 
         public void FinishLevel(bool success)
         {
-            levelManager.FinishLevel(success);
             if (success)
                 saveData.Value.Level++;
+            levelManager.FinishLevel(success);
         }
 
         public void LoadCurrentLevel()
@@ -141,9 +141,12 @@ namespace FateGames.Core
             PlaySound(entity);
         }
 
-        public SoundWorker PlaySound(SoundEntity entity, bool ignoreListenerPause = false)
+        public SoundWorker PlaySound(SoundEntity entity, float pitch = -1, bool ignoreListenerPause = false)
         {
-            return PlaySound(entity, Vector3.zero, ignoreListenerPause);
+            SoundWorker worker = PlaySound(entity, Vector3.zero, ignoreListenerPause);
+            if (pitch > 0)
+                worker.SetPitch(pitch);
+            return worker;
         }
 
         public SoundWorker PlaySound(SoundEntity entity, Vector3 position, bool ignoreListenerPause = false, bool pauseOnStartIfGamePaused = false)

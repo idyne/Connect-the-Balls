@@ -7,9 +7,5 @@ namespace FateGames.Core
     [CreateAssetMenu(menuName = "Fate/Variable/Save Data", fileName = "Save Data Variable")]
     public class SaveDataVariable : Variable<SaveData>
     {
-        public void Log()
-        {
-            Debug.Log(Value.Level);
-        }
     }
 }

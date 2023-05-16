@@ -47,12 +47,13 @@ public class LevelCreator : ScriptableObject
         }
         foreach (string id in levelDatas.Keys)
         {
-            CreateLevel(levelDatas[id], solutionDatas[id]);
+            CreateLevel(id, levelDatas[id], solutionDatas[id]);
         }
         Debug.Log(levelDatas.Count + " levels created.");
     }
-    public void CreateLevel(string txt, string solutionTxt)
+    public void CreateLevel(string id, string txt, string solutionTxt)
     {
+#if UNITY_EDITOR
         string[] lines = txt.Trim().Split("\n", System.StringSplitOptions.RemoveEmptyEntries);
         string firstLine = lines[0].Trim();
         string[] splitFirstLine = firstLine.Split();
@@ -61,6 +62,7 @@ public class LevelCreator : ScriptableObject
         int width = int.Parse(splitFirstLine[1].Trim());
         int length = int.Parse(splitFirstLine[2].Trim());
         LevelData levelData = CreateInstance<LevelData>();
+        levelData.id = id;
         levelData.solution = new(solutionTxt);
         levelData.width = width;
         levelData.length = length;
@@ -101,11 +103,13 @@ public class LevelCreator : ScriptableObject
         EditorUtility.FocusProjectWindow();
         Selection.activeObject = levelData;
         levelDataTable.levelDatas.Add(levelData);
+#endif
     }
 
 
 
 }
+#if UNITY_EDITOR
 
 [CustomEditor(typeof(LevelCreator))]
 public class LevelCreatorEditor : Editor
@@ -125,3 +129,4 @@ public class LevelCreatorEditor : Editor
         }
     }
 }
+#endif

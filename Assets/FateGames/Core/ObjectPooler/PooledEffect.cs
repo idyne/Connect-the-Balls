@@ -10,6 +10,10 @@ public class PooledEffect : FateMonoBehaviour, IPooledObject
     private WaitForSeconds waitForEffectDuration;
     public event Action Release;
     private IEnumerator releaseRoutine;
+    private ParticleSystemRenderer rend;
+
+    public ParticleSystem Effect { get => effect; }
+    public ParticleSystemRenderer ParticleSystemRenderer { get => rend;  }
 
     private void Awake()
     {
@@ -23,6 +27,7 @@ public class PooledEffect : FateMonoBehaviour, IPooledObject
         ParticleSystem.MainModule main = effect.main;
         main.playOnAwake = false;
         waitForEffectDuration = new(main.duration);
+        rend = effect.GetComponent<ParticleSystemRenderer>();
     }
 
     private void PlayEffect()

@@ -9,6 +9,7 @@ namespace FateGames.Core
         [SerializeField] private BoolVariable soundOn;
         [SerializeField] private WorkingSoundWorkerSet workingSet;
         [SerializeField] private AvailableSoundWorkerSet availableSet;
+        public bool music = false;
         private AudioSource audioSource = null;
         public bool Paused { get; private set; } = false;
         public bool Working { get; private set; } = false;
@@ -26,6 +27,8 @@ namespace FateGames.Core
             PauseButton.OnPause.AddListener(() => { if (Working) Pause(); });
             PauseButton.OnResume.AddListener(() => { if (Working) Unpause(); });*/
         }
+
+        public void SetPitch(float pitch) => audioSource.pitch = pitch;
 
         private void OnEnable()
         {
@@ -87,7 +90,7 @@ namespace FateGames.Core
         }
         public void Pause()
         {
-            if (!Working || Paused) return;
+            if (!Working || Paused || audioSource.ignoreListenerPause) return;
             audioSource.Pause();
             Paused = true;
             if (!audioSource.loop)
@@ -101,13 +104,15 @@ namespace FateGames.Core
             if (!audioSource.loop)
                 Invoke(nameof(OnStop), TimeLeft);
         }
-        public void Mute()
+        public void Mute(bool music = false)
         {
-            audioSource.mute = true;
+            if (this.music == music)
+                audioSource.mute = true;
         }
-        public void Unmute()
+        public void Unmute(bool music = false)
         {
-            audioSource.mute = false;
+            if (this.music == music)
+                audioSource.mute = false;
         }
     }
 }

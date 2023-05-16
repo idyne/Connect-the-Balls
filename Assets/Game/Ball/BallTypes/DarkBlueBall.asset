@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5bbca12c821cb64a996328c23edd47b, type: 3}
   m_Name: DarkBlueBall
   m_EditorClassIdentifier: 
-  color: {r: 0.10849059, g: 0.14755602, b: 1, a: 1}
+  color: {r: 0.15686275, g: 0.2, b: 0.46666667, a: 1}

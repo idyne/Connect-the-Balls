@@ -8,16 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ball
-  m_Shader: {fileID: -6465566751694194690, guid: df5bb027d94a6c44bb32b3c31ec1303f,
+  m_Shader: {fileID: -6465566751694194690, guid: edd7abf643fa4bc4e8561d4c280c97cf,
     type: 3}
   m_ValidKeywords:
   - TCP2_MOBILE
-  - TCP2_REFLECTIONS_FRESNEL
-  - TCP2_RIM_LIGHTING
-  - TCP2_SHADOW_LIGHT_COLOR
-  - TCP2_UV_NORMALS_FULL
   - _RECEIVE_SHADOWS_OFF
   m_InvalidKeywords:
+  - TCP2_REFLECTIONS_FRESNEL
+  - TCP2_UV_NORMALS_FULL
   - _ENVIRONMENTREFLECTIONS_OFF
   - _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 4
@@ -148,8 +146,8 @@ Material:
     - _RampBandsSmoothing: 0.1
     - _RampOffset: 0
     - _RampScale: 1
-    - _RampSmoothing: 1
-    - _RampThreshold: 0.457
+    - _RampSmoothing: 0.082
+    - _RampThreshold: 0.727
     - _RampType: 0
     - _ReceiveShadows: 1
     - _ReceiveShadowsOff: 0
@@ -158,7 +156,7 @@ Material:
     - _RenderingMode: 0
     - _RimMax: 1.04
     - _RimMin: 0.51
-    - _ShadowColorLightAtten: 1
+    - _ShadowColorLightAtten: 0
     - _SingleIndirectColor: 0
     - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
@@ -178,9 +176,9 @@ Material:
     - _UseMobileMode: 1
     - _UseNormalMap: 0
     - _UseOcclusion: 0
-    - _UseOutline: 1
+    - _UseOutline: 0
     - _UseReflections: 0
-    - _UseRim: 1
+    - _UseRim: 0
     - _UseRimLightMask: 0
     - _UseShadowTexture: 0
     - _UseSpecular: 0
@@ -195,7 +193,7 @@ Material:
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.5}
-    - _SColor: {r: 0.34523246, g: 0.262842, b: 0.426, a: 1}
+    - _SColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
   m_BuildTextureStacks: []

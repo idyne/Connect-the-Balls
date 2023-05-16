@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 44e83ebf4b52db74d8c8f02ab28cc5b5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - darkModeOn: {fileID: 11400000, guid: 55e65dfcfbd99134894b38d60f3df9a8, type: 2}
+  - image: {instanceID: 0}
+  - lightModeSprite: {instanceID: 0}
+  - darkModeSprite: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -9,7 +9,7 @@ ScriptedImporter:
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 7f24c69ecbea31d49bb0044f94b6c8ea, type: 3}
   detectedRenderPipeline: Universal Render Pipeline
-  strippedLinesCount: 384
+  strippedLinesCount: 383
   shaderSourceCode: "// Toony Colors Pro+Mobile 2\r\n// (c) 2014-2021 Jean Moreno\r\n\r\nShader
     \"Toony Colors Pro 2/Hybrid Shader 2\"\r\n{\r\n\tProperties\r\n\t{\r\n\t\t[Enum(Front,
     2, Back, 1, Both, 0)] _Cull (\"Render Face\", Float) = 2.0\r\n\t\t[TCP2ToggleNoKeyword]
@@ -86,7 +86,8 @@ ScriptedImporter:
     shader_feature_local _ _RECEIVE_SHADOWS_OFF\r\n\r\n\t\t\t// -------------------------------------\r\n\t\t\t//
     Universal Render Pipeline keywords\r\n\t\t\t#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
     _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN\r\n\t\t\t#pragma multi_compile_fragment
-    _ _SHADOWS_SOFT\r\n\t\t\t// URP 10:\r\n\t\t\t// URP 12:\r\n\r\n\r\n\t\t\t// -------------------------------------\r\n\t\t\t//
+    _ _SHADOWS_SOFT\r\n\t\t\t// URP 10:\r\n\t\t\t// URP 12:\r\n\t\t\t#pragma multi_compile_fragment
+    _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3\r\n\r\n\r\n\t\t\t// -------------------------------------\r\n\t\t\t//
     Unity keywords\r\n\r\n\t\t\t//--------------------------------------\r\n\t\t\t//
     Toony Colors Pro 2 keywords\r\n\t\t\t#pragma shader_feature_local TCP2_MOBILE\r\n\t\t\t#pragma
     shader_feature_local_fragment _ TCP2_RAMPTEXT TCP2_RAMP_CRISP TCP2_RAMP_BANDS
@@ -336,7 +337,6 @@ ScriptedImporter:
   - Occlusion
   - Reflections
   - Shadow Albedo Texture
-  - Specular
   - Additional Lights (URP)
   - Additional Lights Shadows
   - Fog
@@ -348,3 +348,7 @@ ScriptedImporter:
   - Rendering Debugger Support (URP 14+)
   - Rendering Layers (URP 14+)
   - SSAO (URP 10+)
+  - Specular
+  - Soft Shadows (URP)
+  - Main Light Shadows (URP)
+  - Decals (URP 12+)

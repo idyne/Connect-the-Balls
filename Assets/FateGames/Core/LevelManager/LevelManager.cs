@@ -33,13 +33,13 @@ namespace FateGames.Core
         {
             if (success)
             {
-                Object.Instantiate(winScreen);
+                //Object.Instantiate(winScreen);
                 gameState.Value = GameState.WIN_SCREEN;
                 OnLevelWon.Invoke();
             }
             else
             {
-                Object.Instantiate(loseScreen);
+                //Object.Instantiate(loseScreen);
                 gameState.Value = GameState.LOSE_SCREEN;
                 OnLevelFailed.Invoke();
             }

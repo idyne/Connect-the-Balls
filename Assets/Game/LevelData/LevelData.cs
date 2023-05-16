@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Game/Level Data")]
 public class LevelData : ScriptableObject
 {
+    [SerializeField] public string id = "";
     [SerializeField] public int width = 1, length = 1;
     [SerializeField] public HeadPair[] headPairs = new HeadPair[0];
     [SerializeField] public Obstacle[] obstacles = new Obstacle[0];
@@ -62,7 +63,6 @@ public class LevelData : ScriptableObject
         public Solution(string solutionString)
         {
             string[] lines = solutionString.Trim().Split("\n", System.StringSplitOptions.RemoveEmptyEntries);
-            Debug.Log(lines.Length);
             paths = new Path[lines.Length];
             for (int i = 0; i < lines.Length; i++)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using FateGames.Core;
+using DG.Tweening;
 
 public class CameraController : FateMonoBehaviour
 {
@@ -12,17 +13,17 @@ public class CameraController : FateMonoBehaviour
     private void Start()
     {
         
-        AdjustPosition();
+        //AdjustPosition();
     }
 
     public void AdjustPosition()
     {
         float aspectRatio = (Screen.width / (float)Screen.height);
         Vector3 pos = new Vector3(board.LevelData.width / 2f, board.LevelData.width * 2f / aspectRatio, board.LevelData.length / 2f );
-        transform.position = pos;
+        transform.DOMove(pos, 1).SetEase(Ease.OutBack);
     }
 }
-
+#if UNITY_EDITOR
 
 [ CustomEditor(typeof(CameraController))]
 public class CameraControllerEditor : Editor
@@ -42,3 +43,4 @@ public class CameraControllerEditor : Editor
         }
     }
 }
+#endif

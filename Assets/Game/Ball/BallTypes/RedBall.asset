@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5bbca12c821cb64a996328c23edd47b, type: 3}
   m_Name: RedBall
   m_EditorClassIdentifier: 
-  color: {r: 1, g: 0.13679248, b: 0.13679248, a: 1}
+  color: {r: 0.68235296, g: 0.14509805, b: 0.10980392, a: 1}

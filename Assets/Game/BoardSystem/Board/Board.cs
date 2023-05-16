@@ -1,6 +1,7 @@
 using FateGames.Core;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,7 +9,8 @@ using UnityEngine.Events;
 public class Board : FateMonoBehaviour
 {
     private static Board instance = null;
-    public static Board Instance {
+    public static Board Instance
+    {
         get
         {
             if (instance == null) instance = FindObjectOfType<Board>();
@@ -23,6 +25,7 @@ public class Board : FateMonoBehaviour
     [SerializeField] private Transform gridContainer;
     [SerializeField] private Vector3 startPosition = new Vector3(0.5f, 0, 0.5f);
     [SerializeField] private UnityEvent onBuilt;
+    [SerializeField] private UnityEvent onBuildAnimationFinished;
 
     public LevelData LevelData { get => levelData; }
     private LevelData levelData { get => levelDataTable.levelDatas[(saveData.Value.Level - 1) % levelDataTable.levelDatas.Count]; }
@@ -34,9 +37,9 @@ public class Board : FateMonoBehaviour
         Build();
     }
 
-    public void Build()
+    public void Build(bool editor = false)
     {
-#if UNITY_EDITOR
+
         int ballCount = 0;
         ClearGrids();
         gridMatrix = new GridHolder[levelData.width, levelData.length];
@@ -45,7 +48,17 @@ public class Board : FateMonoBehaviour
         {
             for (int j = 0; j < levelData.length; j++)
             {
-                GridHolder gridHolder = (PrefabUtility.InstantiatePrefab(ballGridPrefab) as GameObject).GetComponent<GridHolder>();
+                GridHolder gridHolder = null;
+                if (editor)
+                {
+#if UNITY_EDITOR
+                    gridHolder = (PrefabUtility.InstantiatePrefab(ballGridPrefab) as GameObject).GetComponent<GridHolder>();
+#endif
+                }
+                else
+                {
+                    gridHolder = Instantiate(ballGridPrefab).GetComponent<GridHolder>();
+                }
                 gridHolder.i = i;
                 gridHolder.j = j;
                 gridMatrix[i, j] = gridHolder;
@@ -82,12 +95,78 @@ public class Board : FateMonoBehaviour
             b.SetBallType(levelData.headPairs[i].type);
             a.SetPair(b);
         }
-        EditorUtility.SetDirty(this);
-        onBuilt.Invoke();
+        if (editor)
+        {
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
 #endif
+        }
+        onBuilt.Invoke();
+
     }
 
-    private void PlaceObstacle(GridHolder a, Direction direction)
+    public void BuildAnimated()
+    {
+        if (!Application.isPlaying) return;
+        WaitForSeconds waitForSeconds = new(0.7f / (levelData.width * levelData.length));
+        IEnumerator routine()
+        {
+            List<Ball> balls = new();
+            int ballCount = 0;
+            ClearGrids();
+            gridMatrix = new GridHolder[levelData.width, levelData.length];
+            // Create grids and their holders
+            for (int i = 0; i < levelData.width; i++)
+            {
+                for (int j = 0; j < levelData.length; j++)
+                {
+                    GridHolder gridHolder = Instantiate(ballGridPrefab).GetComponent<GridHolder>();
+
+                    gridHolder.i = i;
+                    gridHolder.j = j;
+                    gridMatrix[i, j] = gridHolder;
+                    gridHolder.transform.SetParent(gridContainer);
+                    gridHolder.transform.position = startPosition + new Vector3(i, 0, j);
+                    Ball ball = gridHolder.GetComponentInChildren<Ball>();
+                    ball.SetGrid(gridHolder);
+                    ball.name = "Ball " + ballCount++;
+                    balls.Add(ball);
+                    ball.transform.localScale = Vector3.zero;
+                }
+            }
+            // Set adjacents
+            for (int i = 0; i < levelData.width; i++)
+            {
+                for (int j = 0; j < levelData.length; j++)
+                {
+                    GridHolder grid = gridMatrix[i, j];
+                    SetAdjacents(grid);
+                }
+            }
+            for (int i = 0; i < levelData.obstacles.Length; i++)
+            {
+                LevelData.Obstacle obstacle = levelData.obstacles[i];
+                PlaceObstacle(gridMatrix[obstacle.col, obstacle.row], obstacle.direction);
+            }
+            for (int i = 0; i < levelData.headPairs.Length; i++)
+            {
+                Ball a = gridMatrix[levelData.headPairs[i].a.col, levelData.headPairs[i].a.row].GetComponentInChildren<Ball>();
+                Ball b = gridMatrix[levelData.headPairs[i].b.col, levelData.headPairs[i].b.row].GetComponentInChildren<Ball>();
+                a.SetBallType(levelData.headPairs[i].type);
+                b.SetBallType(levelData.headPairs[i].type);
+                a.SetPair(b);
+            }
+            onBuilt.Invoke();
+            foreach(Ball ball in balls.OrderBy((ball) => ball.transform.position.z).ThenBy((ball) => ball.transform.position.x))
+            {
+                ball.AnimatedStart();
+                yield return waitForSeconds;
+            }
+            onBuildAnimationFinished.Invoke();
+        }
+        StartCoroutine(routine());
+    }
+    private void PlaceObstacle(GridHolder a, Direction direction, bool editor = false)
     {
         Vector3 obstaclePosition = Vector3.zero;
         Vector3 obstacleRotation = Vector3.zero;
@@ -120,12 +199,20 @@ public class Board : FateMonoBehaviour
                 a.down = null;
                 break;
         }
+        ObstacleHolder obstacle = null;
+        if (editor)
+        {
 #if UNITY_EDITOR
-        ObstacleHolder obstacle = (PrefabUtility.InstantiatePrefab(obstaclePrefab) as GameObject).GetComponent<ObstacleHolder>();
+            obstacle = (PrefabUtility.InstantiatePrefab(obstaclePrefab) as GameObject).GetComponent<ObstacleHolder>();
+#endif
+        }
+        else
+        {
+            obstacle = Instantiate(obstaclePrefab).GetComponent<ObstacleHolder>();
+        }
         obstacle.transform.SetParent(gridContainer);
         obstacle.transform.position = obstaclePosition + startPosition;
         obstacle.transform.eulerAngles = obstacleRotation;
-#endif
     }
 
     private void SetAdjacents(GridHolder grid)
@@ -175,7 +262,7 @@ public class BoardEditor : Editor
         DrawDefaultInspector();
         if (GUILayout.Button("Build"))
         {
-            board.Build();
+            board.Build(true);
         }
     }
 }

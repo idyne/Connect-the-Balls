@@ -9,10 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 516234841801581892}
+  - component: {fileID: 2177119487797814400}
+  - component: {fileID: 8385684791650763588}
   - component: {fileID: 516234841801581895}
   - component: {fileID: 2119932023601445265}
   - component: {fileID: 1864894940339790299}
   - component: {fileID: 3250286731366456583}
+  - component: {fileID: 1416819696432721535}
   m_Layer: 0
   m_Name: BallController
   m_TagString: Untagged
@@ -35,6 +38,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2177119487797814400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516234841801581894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8781ed4472162214ebc88e93231bb987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectPool: {fileID: 8385684791650763588}
+--- !u!114 &8385684791650763588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516234841801581894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d241c4f2db5d50479b44b372e3f2458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectPrefab: {fileID: 6199596412286956125, guid: 1c0c2143c7552b1429f885c6d1ad8003,
+    type: 3}
+  maxSize: 25
 --- !u!114 &516234841801581895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,6 +78,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae42958e5336e7c428786d3554392763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveData: {fileID: 11400000, guid: 2fbe29c554af5d84b9bdecaab48fec86, type: 2}
+  music: {fileID: 11400000, guid: 85ad7642105be594d9d1edef08ce91fc, type: 2}
   ballLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -54,6 +87,36 @@ MonoBehaviour:
     type: 2}
   ballsRuntimeSet: {fileID: 11400000, guid: f7b0d0876798e004f94c75f2318c851d, type: 2}
   gameState: {fileID: 11400000, guid: 35af722527cf21148bdd90a70a23f45e, type: 2}
+  onExplosionFinished:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: ff6cae7024411044695b0f6b4e8eb7b6, type: 2}
+        m_TargetAssemblyTypeName: FateGames.Core.GameEvent, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHintUsed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 4e66f987084f8d947b68ddfaa705b10e, type: 2}
+        m_TargetAssemblyTypeName: FateGames.Core.GameEvent, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   selectedBall: {fileID: 0}
 --- !u!114 &2119932023601445265
 MonoBehaviour:
@@ -136,6 +199,48 @@ MonoBehaviour:
         - m_Target: {fileID: 516234841801581895}
           m_TargetAssemblyTypeName: BallController, Assembly-CSharp
           m_MethodName: Hint
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1416819696432721535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516234841801581894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e72ded4bbe29d9648a4cace73085bbf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEventTuple:
+    events:
+    - {fileID: 11400000, guid: 960121d60f3fc9f4eacb18967f59e1ce, type: 2}
+    response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 516234841801581895}
+          m_TargetAssemblyTypeName: BallController, Assembly-CSharp
+          m_MethodName: ClearCommands
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 516234841801581895}
+          m_TargetAssemblyTypeName: BallController, Assembly-CSharp
+          m_MethodName: ExplodeAllBalls
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

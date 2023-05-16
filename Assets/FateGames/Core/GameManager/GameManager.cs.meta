@@ -6,7 +6,7 @@ MonoImporter:
   defaultReferences:
   - paused: {fileID: 11400000, guid: f0ada45c4803a2f4ca64c3153c579c54, type: 2}
   - gameState: {fileID: 11400000, guid: 35af722527cf21148bdd90a70a23f45e, type: 2}
-  executionOrder: 0
+  executionOrder: -101
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

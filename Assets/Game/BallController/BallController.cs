@@ -4,14 +4,20 @@ using UnityEngine;
 using FateGames.Core;
 using UnityEngine.InputSystem.EnhancedTouch;
 using System.Linq;
+using UnityEngine.Events;
+using DG.Tweening;
 
 public class BallController : FateMonoBehaviour
 {
+    [SerializeField] private SaveDataVariable saveData;
+    [SerializeField] private SoundEntity music;
     [SerializeField] private LayerMask ballLayerMask;
     [SerializeField] public BallRuntimeSet freeBallsRuntimeSet;
     [SerializeField] public BallRuntimeSet ballsRuntimeSet;
     [SerializeField] private GameStateVariable gameState;
-    private static bool enableLog = false;
+    [SerializeField] private UnityEvent onExplosionFinished;
+    [SerializeField] private UnityEvent onHintUsed;
+    private static bool enableLog = true;
     private Camera mainCamera;
     public Ball selectedBall;
     public Stack<ICommand> littleCommands = new();
@@ -20,6 +26,16 @@ public class BallController : FateMonoBehaviour
     private void Awake()
     {
         mainCamera = Camera.main;
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.PlaySound(music, -1, true).music = true;
+    }
+
+    public void ClearCommands()
+    {
+        commands.Clear();
     }
 
     private int[,] CreateAdjacencyMatrix()
@@ -68,14 +84,20 @@ public class BallController : FateMonoBehaviour
         }
         bool reverse = pathBall.Previous != null;
         if (!reverse && pathBall.Pair.Previous == null) return false;
-        Debug.Log(pathBall, pathBall);
         Ball current = pathBall;
         for (int i = 1; i < path.path.Length; i++)
         {
             coordinates = path.path[i];
             Ball ball = ballsRuntimeSet.Items.Where((ball) => ball.Grid.i == coordinates.col && ball.Grid.j == coordinates.row).ToArray()[0];
-            Debug.Log(ball, ball);
-            if (ball != current.Next) return false;
+            if (reverse)
+            {
+                Debug.Log("Ball: " + ball, ball);
+                Debug.Log("Current: " + current, current);
+                Debug.Log("ball.Previous != current: " + (ball.Previous != current));
+                Debug.Log("ball.Previous: " + ball.Previous, ball.Previous);
+                if (ball.Next != current) return false;
+            }
+            else if (ball != current.Next) return false;
             current = ball;
         }
         return true;
@@ -83,6 +105,7 @@ public class BallController : FateMonoBehaviour
 
     public void Hint()
     {
+        if (saveData.Value.HintCount <= 0) return;
         LevelData levelData = Board.Instance.LevelData;
         LevelData.Solution.Path path = levelData.solution.paths[0];
         bool found = false;
@@ -103,17 +126,20 @@ public class BallController : FateMonoBehaviour
             found = true;
         }
         if (!found) return;
+        Debug.Log(found);
         LevelData.Solution.Coordinates coordinates = path.path[0];
         Ball pathBall = ballsRuntimeSet.Items.Where((ball) => ball.Grid.i == coordinates.col && ball.Grid.j == coordinates.row).ToArray()[0];
-        SelectBall(pathBall);
+        SelectBall(pathBall, false);
 
         for (int i = 1; i < path.path.Length; i++)
         {
             coordinates = path.path[i];
             pathBall = ballsRuntimeSet.Items.Where((ball) => ball.Grid.i == coordinates.col && ball.Grid.j == coordinates.row).ToArray()[0];
             if (pathBall.IsHead) break;
-            MoveTo(pathBall);
+            MoveTo(pathBall, i == path.path.Length - 1);
         }
+        saveData.Value.HintCount--;
+        onHintUsed.Invoke();
     }
 
     public void Undo()
@@ -192,41 +218,11 @@ public class BallController : FateMonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ballLayerMask, QueryTriggerInteraction.Collide))
         {
             Ball ball = hit.transform.GetComponent<Ball>();
-            if (ball.BallType == null) return;
-            // bir rengin hiçbir linki yoktur ve headlerden herhangi biri seçilmiştir
-            if (ball.IsHead && ball.Next == null && ball.Pair.Next == null)
-            {
-                AssignSelectedBallCommand assignSelectedBallCommand = new(this, ball);
-                ExecuteLittleCommand(assignSelectedBallCommand);
-            }
-            // bir rengin linki vardır ve linkin en ucu seçilmiştir
-            else if (!ball.IsHead && ball.Next == null)
-            {
-                AssignSelectedBallCommand assignSelectedBallCommand = new(this, ball);
-                ExecuteLittleCommand(assignSelectedBallCommand);
-            }
-            // bir rengin linki vardır ve linkin ucu olmayan bir üyesi seçilmiştir
-            else if (ball.Next != null)
-            {
-
-                AssignSelectedBallCommand assignSelectedBallCommand = new(this, ball);
-                ExecuteLittleCommand(assignSelectedBallCommand);
-                ClearForwardCommand clearForwardCommand = new(ball);
-                ExecuteLittleCommand(clearForwardCommand);
-            }
-            // bir rengin linki vardır ama linkte olmayan head seçilmiştir
-            else if (ball.IsHead && ball.Pair.Next != null)
-            {
-
-                AssignSelectedBallCommand assignSelectedBallCommand = new(this, ball);
-                ExecuteLittleCommand(assignSelectedBallCommand);
-                ClearForwardCommand clearForwardCommand = new(ball.Pair);
-                ExecuteLittleCommand(clearForwardCommand);
-            }
+            SelectBall(ball);
 
         }
     }
-    private void SelectBall(Ball ball)
+    private void SelectBall(Ball ball, bool playSound = true)
     {
         if (ball.BallType == null) return;
         // bir rengin hiçbir linki yoktur ve headlerden herhangi biri seçilmiştir
@@ -259,8 +255,19 @@ public class BallController : FateMonoBehaviour
             ClearForwardCommand clearForwardCommand = new(ball.Pair);
             ExecuteLittleCommand(clearForwardCommand);
         }
+        if (selectedBall)
+        {
+            Ball next = selectedBall.Root;
+            while (next)
+            {
+                next.PlayInLinkAnimation();
+                next = next.Next;
+            }
+        }
+        if (playSound && selectedBall == ball)
+            ball.PlaySplashSound();
     }
-    private void MoveTo(Ball ball)
+    private void MoveTo(Ball ball, bool playSound = true)
     {
         if (ball == selectedBall) return;
         if (selectedBall.Grid.IsAdjacent(ball.Grid))
@@ -314,7 +321,7 @@ public class BallController : FateMonoBehaviour
                     Ball previous = selectedBall.Previous;
                     AssignSelectedBallCommand assignSelectedBallCommand = new(this, previous);
                     ExecuteLittleCommand(assignSelectedBallCommand);
-                    UnbindCommand unbindCommand = new(previous);
+                    UnbindCommand unbindCommand = new(previous, selectedBall == ball);
                     ExecuteLittleCommand(unbindCommand);
                 }
 
@@ -340,12 +347,11 @@ public class BallController : FateMonoBehaviour
             {
                 Ball pathBall = ballsRuntimeSet.Items[path[i]];
                 if (pathBall.IsHead) break;
-                MoveTo(pathBall);
+                MoveTo(pathBall, i == path.Length - 1);
             }
-
-
-
         }
+        if (playSound && selectedBall == ball)
+            ball.PlaySplashSound();
     }
     private void MoveSelectedBall(Vector2 mousePosition)
     {
@@ -355,18 +361,6 @@ public class BallController : FateMonoBehaviour
         {
             Ball ball = hit.transform.GetComponent<Ball>();
             MoveTo(ball);
-        }
-    }
-
-    public void Bind(Ball ball)
-    {
-        if (!selectedBall || !ball || !selectedBall.CanBind(ball)) return;
-        selectedBall.Bind(ball);
-        selectedBall = ball;
-        if (freeBallsRuntimeSet.Items.Count == 0)
-        {
-            ReleaseSelectedBall();
-            GameManager.Instance.FinishLevel(true);
         }
     }
 
@@ -418,8 +412,9 @@ public class BallController : FateMonoBehaviour
             }
             if (ball)
             {
-                BindCommand bindCommand = new(currentBall, ball);
+                BindCommand bindCommand = new(currentBall, ball, false);
                 ExecuteLittleCommand(bindCommand);
+                ball.PlaySplashSound();
             }
         }
 
@@ -464,7 +459,14 @@ public class BallController : FateMonoBehaviour
                 ExecuteLittleCommand(assignSelectedBallCommand);
                 BindCommand bindCommand = new(previousSelectedBall, ball);
                 ExecuteLittleCommand(bindCommand);
+                ball.PlaySplashSound();
             }
+        }
+        Ball next = selectedBall.Root;
+        while (next)
+        {
+            next.StopInLinkAnimation();
+            next = next.Next;
         }
         AssignSelectedBallCommand assignNullToSelectedBallCommand = new(this, null);
         ExecuteLittleCommand(assignNullToSelectedBallCommand);
@@ -472,10 +474,28 @@ public class BallController : FateMonoBehaviour
     }
     private void FinalizeLittleCommands()
     {
-        Debug.Log("FinalizeLittleCommands");
         commands.Push(littleCommands);
         littleCommands = new();
         CheckFinish();
+    }
+
+    public void ExplodeAllBalls()
+    {
+        IEnumerator routine()
+        {
+            WaitForSeconds waitForSeconds = new(0.7f / ballsRuntimeSet.Items.Count);
+            int count = 0;
+            int total = ballsRuntimeSet.Items.Count;
+            foreach (Ball ball in ballsRuntimeSet.Items.OrderBy((ball) => ball.transform.position.z).ThenBy((ball) => ball.transform.position.x))
+            {
+                ball.Explode();
+                ball.PlayExplodeSound(0.5f + count * 1f / total);
+                count++;
+                yield return waitForSeconds;
+            }
+            onExplosionFinished.Invoke();
+        }
+        StartCoroutine(routine());
     }
 
     public class AssignSelectedBallCommand : ICommand
@@ -495,6 +515,7 @@ public class BallController : FateMonoBehaviour
         public bool Execute()
         {
             if (Done) return false;
+            GameManager.Instance.PlayHaptic();
             previousSelectedBall = ballController.selectedBall;
             LogColored("AssignSelectedBallCommand: " + previousSelectedBall + " => " + ball, Color.cyan, ball);
             ballController.selectedBall = ball;
@@ -505,6 +526,7 @@ public class BallController : FateMonoBehaviour
         public bool Undo()
         {
             if (!Done) return false;
+            GameManager.Instance.PlayHaptic();
             LogColored("AssignSelectedBallCommand: " + previousSelectedBall + " => " + ball, Color.green, ball);
             ballController.selectedBall = previousSelectedBall;
             previousSelectedBall = null;
@@ -547,7 +569,7 @@ public class BallController : FateMonoBehaviour
             Ball current = ball;
             while (forwardBalls.Count > 0)
             {
-                current.Bind(forwardBalls.Dequeue());
+                current.Bind(forwardBalls.Dequeue(), false);
                 current = current.Next;
             }
             Done = false;
@@ -558,20 +580,22 @@ public class BallController : FateMonoBehaviour
     {
         private readonly Ball ball;
         private readonly Ball nextBall;
+        private bool effect;
         public bool Done { get; private set; }
 
 
-        public BindCommand(Ball ball, Ball nextBall)
+        public BindCommand(Ball ball, Ball nextBall, bool effect = true)
         {
             this.ball = ball;
             this.nextBall = nextBall;
+            this.effect = effect;
         }
 
         public bool Execute()
         {
             if (Done) return false;
             LogColored("BindCommand: " + ball + " => " + nextBall, Color.cyan, ball);
-            ball.Bind(nextBall);
+            ball.Bind(nextBall, effect);
             Done = true;
             return true;
         }
@@ -580,7 +604,7 @@ public class BallController : FateMonoBehaviour
         {
             if (!Done) return false;
             LogColored("BindCommand: " + ball + " => " + nextBall, Color.green, ball);
-            ball.Unbind();
+            ball.Unbind(false);
             Done = false;
             return true;
         }
@@ -589,12 +613,14 @@ public class BallController : FateMonoBehaviour
     {
         private readonly Ball ball;
         private Ball unbondBall = null;
+        private bool playEffect = true;
         public bool Done { get; private set; }
 
 
-        public UnbindCommand(Ball ball)
+        public UnbindCommand(Ball ball, bool playEffect = true)
         {
             this.ball = ball;
+            this.playEffect = playEffect;
         }
 
         public bool Execute()
@@ -602,7 +628,7 @@ public class BallController : FateMonoBehaviour
             if (Done) return false;
             LogColored("UnbindCommand: " + ball, Color.cyan, ball);
             unbondBall = ball.Next;
-            ball.Unbind();
+            ball.Unbind(playEffect);
             Done = true;
             return true;
         }
@@ -611,7 +637,7 @@ public class BallController : FateMonoBehaviour
         {
             if (!Done) return false;
             LogColored("UnbindCommand: " + ball, Color.green, ball);
-            ball.Bind(unbondBall);
+            ball.Bind(unbondBall, false);
             unbondBall = null;
             Done = false;
             return true;
@@ -620,3 +646,7 @@ public class BallController : FateMonoBehaviour
 
 }
 
+public partial class SaveData
+{
+    public int HintCount = 2;
+}

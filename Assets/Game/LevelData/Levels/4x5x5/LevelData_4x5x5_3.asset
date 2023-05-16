@@ -12,65 +12,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1211e89708435409fbd0c968b9f19f, type: 3}
   m_Name: LevelData_4x5x5_3
   m_EditorClassIdentifier: 
+  id: 05cca2b3-9141-4c09-948e-8c8753aa7869
   width: 5
   length: 5
   headPairs:
   - type: {fileID: 11400000, guid: 9ef5a992abefc0d4ca483ef3be3a7145, type: 2}
     a:
-      row: 1
-      col: 0
-    b:
-      row: 1
+      row: 0
       col: 3
-  - type: {fileID: 11400000, guid: c394999939f2b9d488359b4340176cf7, type: 2}
-    a:
-      row: 3
-      col: 3
-    b:
-      row: 2
-      col: 0
-  - type: {fileID: 11400000, guid: bf0d1c801009e4f48984851124e5c32c, type: 2}
-    a:
-      row: 1
-      col: 4
     b:
       row: 0
       col: 0
-  - type: {fileID: 11400000, guid: 5ebcd273cb3681b46b0eb45fbe3a6948, type: 2}
+  - type: {fileID: 11400000, guid: 7dc05c0690c619a42a7986c4148b22cb, type: 2}
     a:
       row: 3
-      col: 0
+      col: 3
     b:
-      row: 2
+      row: 1
+      col: 0
+  - type: {fileID: 11400000, guid: c2bf25d4e4e38094990401f84b39e93c, type: 2}
+    a:
+      row: 3
       col: 2
+    b:
+      row: 4
+      col: 4
+  - type: {fileID: 11400000, guid: 8033b76313d4e304292dd6b74f2e336b, type: 2}
+    a:
+      row: 3
+      col: 1
+    b:
+      row: 0
+      col: 4
   obstacles: []
   solution:
     paths:
     - path:
-      - row: 1
-        col: 0
-      - row: 1
-        col: 1
-      - row: 1
-        col: 2
-      - row: 1
-        col: 3
-    - path:
-      - row: 3
-        col: 3
-      - row: 3
-        col: 2
-      - row: 3
-        col: 1
-      - row: 2
-        col: 1
-      - row: 2
-        col: 0
-    - path:
-      - row: 1
-        col: 4
-      - row: 0
-        col: 4
       - row: 0
         col: 3
       - row: 0
@@ -81,22 +58,46 @@ MonoBehaviour:
         col: 0
     - path:
       - row: 3
-        col: 0
+        col: 3
       - row: 4
-        col: 0
+        col: 3
+      - row: 4
+        col: 2
       - row: 4
         col: 1
       - row: 4
+        col: 0
+      - row: 3
+        col: 0
+      - row: 2
+        col: 0
+      - row: 1
+        col: 0
+    - path:
+      - row: 3
         col: 2
-      - row: 4
+      - row: 2
+        col: 2
+      - row: 2
         col: 3
-      - row: 4
+      - row: 2
         col: 4
       - row: 3
         col: 4
-      - row: 2
+      - row: 4
         col: 4
+    - path:
+      - row: 3
+        col: 1
       - row: 2
-        col: 3
-      - row: 2
+        col: 1
+      - row: 1
+        col: 1
+      - row: 1
         col: 2
+      - row: 1
+        col: 3
+      - row: 1
+        col: 4
+      - row: 0
+        col: 4
