@@ -103,7 +103,10 @@ namespace FateGames.Core
         public void FinishLevel(bool success)
         {
             if (success)
+            {
                 saveData.Value.Level++;
+                SaveToDevice();
+            }
             levelManager.FinishLevel(success);
         }
 

@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 267474445762280771}
   - component: {fileID: 8125375070918390030}
   - component: {fileID: 222885476723967782}
+  - component: {fileID: 8665685426359196295}
   m_Layer: 0
   m_Name: HintButton
   m_TagString: Untagged
@@ -265,6 +266,36 @@ MonoBehaviour:
   gameEventTuple:
     events:
     - {fileID: 11400000, guid: 4e66f987084f8d947b68ddfaa705b10e, type: 2}
+    response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 255808844542284937}
+          m_TargetAssemblyTypeName: HintButton, Assembly-CSharp
+          m_MethodName: SetHintCount
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &8665685426359196295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4656016507747709786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e72ded4bbe29d9648a4cace73085bbf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEventTuple:
+    events:
+    - {fileID: 11400000, guid: c98d3651c9e49db48abf4c099712ee83, type: 2}
     response:
       m_PersistentCalls:
         m_Calls:

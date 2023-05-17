@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae42958e5336e7c428786d3554392763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rewardManager: {fileID: 11400000, guid: b8e09d8ce6a1b7643a164609533aee39, type: 2}
   saveData: {fileID: 11400000, guid: 2fbe29c554af5d84b9bdecaab48fec86, type: 2}
   music: {fileID: 11400000, guid: 85ad7642105be594d9d1edef08ce91fc, type: 2}
   ballLayerMask:

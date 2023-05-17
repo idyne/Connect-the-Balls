@@ -247,7 +247,6 @@ public class Ball : FateMonoBehaviour
     public void Unbind(bool playEffect = true)
     {
         if (next == null) return;
-        Debug.Log("Unbind: " + this, this);
         next.LinkLength = 1;
         next.ClearBallType();
         next.StopInLinkAnimation();
