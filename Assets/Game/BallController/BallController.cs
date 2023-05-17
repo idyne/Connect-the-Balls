@@ -486,9 +486,11 @@ public class BallController : FateMonoBehaviour
             WaitForSeconds waitForSeconds = new(0.7f / ballsRuntimeSet.Items.Count);
             int count = 0;
             int total = ballsRuntimeSet.Items.Count;
+            int step = Mathf.CeilToInt(total / 20f);
             foreach (Ball ball in ballsRuntimeSet.Items.OrderBy((ball) => ball.transform.position.z).ThenBy((ball) => ball.transform.position.x))
             {
                 ball.Explode();
+                if(count % step == 0)
                 ball.PlayExplodeSound(0.5f + count * 1f / total);
                 count++;
                 yield return waitForSeconds;
