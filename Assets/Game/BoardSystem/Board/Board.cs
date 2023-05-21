@@ -26,6 +26,7 @@ public class Board : FateMonoBehaviour
     [SerializeField] private Vector3 startPosition = new Vector3(0.5f, 0, 0.5f);
     [SerializeField] private UnityEvent onBuilt;
     [SerializeField] private UnityEvent onBuildAnimationFinished;
+    [SerializeField] private BoardPlate boardPlate;
 
     public LevelData LevelData { get => levelData; }
     private LevelData levelData { get => levelDataTable.levelDatas[(saveData.Value.Level - 1) % levelDataTable.levelDatas.Count]; }
@@ -42,6 +43,7 @@ public class Board : FateMonoBehaviour
 
         int ballCount = 0;
         ClearGrids();
+        boardPlate.Adjust(new Vector3(levelData.width / 2f, 0, levelData.length / 2f), new Vector2(levelData.width, levelData.length), false);
         gridMatrix = new GridHolder[levelData.width, levelData.length];
         // Create grids and their holders
         for (int i = 0; i < levelData.width; i++)
@@ -102,7 +104,6 @@ public class Board : FateMonoBehaviour
 #endif
         }
         onBuilt.Invoke();
-
     }
 
     public void BuildAnimated()
@@ -114,6 +115,7 @@ public class Board : FateMonoBehaviour
             List<Ball> balls = new();
             int ballCount = 0;
             ClearGrids();
+            boardPlate.Adjust(new Vector3(levelData.width / 2f, 0, levelData.length / 2f), new Vector2(levelData.width, levelData.length));
             gridMatrix = new GridHolder[levelData.width, levelData.length];
             // Create grids and their holders
             for (int i = 0; i < levelData.width; i++)
@@ -157,7 +159,7 @@ public class Board : FateMonoBehaviour
                 a.SetPair(b);
             }
             onBuilt.Invoke();
-            foreach(Ball ball in balls.OrderBy((ball) => ball.transform.position.z).ThenBy((ball) => ball.transform.position.x))
+            foreach (Ball ball in balls.OrderBy((ball) => ball.transform.position.z).ThenBy((ball) => ball.transform.position.x))
             {
                 ball.AnimatedStart();
                 yield return waitForSeconds;

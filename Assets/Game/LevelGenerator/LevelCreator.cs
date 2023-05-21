@@ -52,6 +52,7 @@ public class LevelCreator : ScriptableObject
         levelDataTable.Sort();
 #if UNITY_EDITOR
         EditorUtility.SetDirty(levelDataTable);
+        EditorUtility.SetDirty(this);
 #endif
         Debug.Log(levelDatas.Count + " levels created.");
     }

@@ -22,6 +22,16 @@ public class AnimatedUIElement : FateMonoBehaviour
         container.DOScale(Vector3.zero, 0.3f).OnComplete(() => { canvas.enabled = false; });
     }
 
+    public void HideWithoutAnimation()
+    {
+        canvas.enabled = false;
+    }
+
+    public void ShowWithoutAnimation()
+    {
+        canvas.enabled = true;
+    }
+
     private void Reset()
     {
         canvas = GetComponentInChildren<Canvas>();

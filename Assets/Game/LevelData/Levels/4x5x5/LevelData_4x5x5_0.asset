@@ -12,81 +12,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1211e89708435409fbd0c968b9f19f, type: 3}
   m_Name: LevelData_4x5x5_0
   m_EditorClassIdentifier: 
-  id: 023a2df9-6b60-4b23-b881-4afeef362d90
+  id: 288d8cdb-6632-4fa5-8ca5-e1fa3dda4674
   width: 5
   length: 5
   headPairs:
   - type: {fileID: 11400000, guid: 9ef5a992abefc0d4ca483ef3be3a7145, type: 2}
     a:
-      row: 3
-      col: 1
+      row: 0
+      col: 0
     b:
       row: 2
-      col: 3
+      col: 2
   - type: {fileID: 11400000, guid: 7dc05c0690c619a42a7986c4148b22cb, type: 2}
     a:
-      row: 0
-      col: 1
-    b:
-      row: 0
+      row: 4
       col: 4
+    b:
+      row: 1
+      col: 0
   - type: {fileID: 11400000, guid: c2bf25d4e4e38094990401f84b39e93c, type: 2}
     a:
-      row: 0
-      col: 0
+      row: 1
+      col: 3
     b:
       row: 2
-      col: 2
+      col: 1
   - type: {fileID: 11400000, guid: 8033b76313d4e304292dd6b74f2e336b, type: 2}
     a:
-      row: 1
-      col: 2
+      row: 3
+      col: 4
     b:
-      row: 2
-      col: 0
+      row: 0
+      col: 2
   obstacles: []
   solution:
     paths:
     - path:
-      - row: 3
-        col: 1
-      - row: 3
-        col: 2
-      - row: 3
-        col: 3
-      - row: 2
-        col: 3
-    - path:
-      - row: 0
-        col: 1
-      - row: 0
-        col: 2
-      - row: 0
-        col: 3
-      - row: 0
-        col: 4
-    - path:
       - row: 0
         col: 0
-      - row: 1
-        col: 0
+      - row: 0
+        col: 1
       - row: 1
         col: 1
-      - row: 2
-        col: 1
+      - row: 1
+        col: 2
       - row: 2
         col: 2
     - path:
-      - row: 1
-        col: 2
-      - row: 1
-        col: 3
-      - row: 1
-        col: 4
-      - row: 2
-        col: 4
-      - row: 3
-        col: 4
       - row: 4
         col: 4
       - row: 4
@@ -101,3 +73,31 @@ MonoBehaviour:
         col: 0
       - row: 2
         col: 0
+      - row: 1
+        col: 0
+    - path:
+      - row: 1
+        col: 3
+      - row: 2
+        col: 3
+      - row: 3
+        col: 3
+      - row: 3
+        col: 2
+      - row: 3
+        col: 1
+      - row: 2
+        col: 1
+    - path:
+      - row: 3
+        col: 4
+      - row: 2
+        col: 4
+      - row: 1
+        col: 4
+      - row: 0
+        col: 4
+      - row: 0
+        col: 3
+      - row: 0
+        col: 2

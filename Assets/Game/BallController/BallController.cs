@@ -9,6 +9,15 @@ using DG.Tweening;
 
 public class BallController : FateMonoBehaviour
 {
+    private static BallController instance = null;
+    public static BallController Instance
+    {
+        get
+        {
+            if (instance == null) instance = FindObjectOfType<BallController>();
+            return instance;
+        }
+    }
     [SerializeReference] private RewardManager rewardManager;
     [SerializeField] private SaveDataVariable saveData;
     [SerializeField] private SoundEntity music;
@@ -74,13 +83,13 @@ public class BallController : FateMonoBehaviour
         }
     }
 
-    private bool IsPathSolved(LevelData.Solution.Path path)
+    public bool IsPathSolved(LevelData.Solution.Path path)
     {
         LevelData.Solution.Coordinates coordinates = path.path[0];
         Ball pathBall = ballsRuntimeSet.Items.Where((ball) => ball.Grid.i == coordinates.col && ball.Grid.j == coordinates.row).ToArray()[0];
         if (!pathBall.IsHead)
         {
-            Debug.LogError("Not head!");
+            Debug.LogError("Not head!", pathBall);
             return false;
         }
         bool reverse = pathBall.Previous != null;

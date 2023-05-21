@@ -753,7 +753,7 @@ PrefabInstance:
     - target: {fileID: 3621519152699823666, guid: 95ae3b0afff8e80478b134b2538d2156,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 46
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 3621519152699823666, guid: 95ae3b0afff8e80478b134b2538d2156,
         type: 3}
@@ -962,7 +962,7 @@ PrefabInstance:
     - target: {fileID: 3621519152699823666, guid: 95ae3b0afff8e80478b134b2538d2156,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 201
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 3621519152699823666, guid: 95ae3b0afff8e80478b134b2538d2156,
         type: 3}
@@ -1171,7 +1171,7 @@ PrefabInstance:
     - target: {fileID: 3621519152699823666, guid: 95ae3b0afff8e80478b134b2538d2156,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -117
+      value: -240
       objectReference: {fileID: 0}
     - target: {fileID: 3621519152699823666, guid: 95ae3b0afff8e80478b134b2538d2156,
         type: 3}
@@ -1371,6 +1371,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DarkModeToggle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775510525532803891, guid: 95ae3b0afff8e80478b134b2538d2156,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8482450209836593224, guid: 95ae3b0afff8e80478b134b2538d2156,
         type: 3}

@@ -4,6 +4,7 @@ using UnityEngine;
 using FateGames.Core;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Events;
 
 public class Ball : FateMonoBehaviour
 {
@@ -26,6 +27,8 @@ public class Ball : FateMonoBehaviour
     [SerializeField] private Image canvasImage;
     [SerializeField] private Transform canvasImageTransform;
     [SerializeField] private Canvas canvas;
+    [Header("Events")]
+    [SerializeField] private UnityEvent onLinkCompleted;
 
     public int LinkLength = 1;
 
@@ -202,6 +205,7 @@ public class Ball : FateMonoBehaviour
             nextBall.PlaySplashEffect();
             nextBall.PlayInLinkAnimation();
         }
+        if (nextBall.isHead) onLinkCompleted.Invoke();
     }
     public void PlaySplashSound()
     {

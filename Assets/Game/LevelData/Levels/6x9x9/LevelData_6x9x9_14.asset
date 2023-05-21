@@ -1,0 +1,231 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a1211e89708435409fbd0c968b9f19f, type: 3}
+  m_Name: LevelData_6x9x9_14
+  m_EditorClassIdentifier: 
+  id: f58c7e28-627d-4b82-a46d-16a9eb45174f
+  width: 9
+  length: 9
+  headPairs:
+  - type: {fileID: 11400000, guid: 9ef5a992abefc0d4ca483ef3be3a7145, type: 2}
+    a:
+      row: 0
+      col: 2
+    b:
+      row: 4
+      col: 4
+  - type: {fileID: 11400000, guid: 7dc05c0690c619a42a7986c4148b22cb, type: 2}
+    a:
+      row: 1
+      col: 1
+    b:
+      row: 1
+      col: 8
+  - type: {fileID: 11400000, guid: c2bf25d4e4e38094990401f84b39e93c, type: 2}
+    a:
+      row: 1
+      col: 4
+    b:
+      row: 3
+      col: 3
+  - type: {fileID: 11400000, guid: 8033b76313d4e304292dd6b74f2e336b, type: 2}
+    a:
+      row: 2
+      col: 1
+    b:
+      row: 6
+      col: 2
+  - type: {fileID: 11400000, guid: c2e5bc16a43cbf14d94cde27d1020c97, type: 2}
+    a:
+      row: 2
+      col: 8
+    b:
+      row: 7
+      col: 0
+  - type: {fileID: 11400000, guid: 1174bf6cd1b9dd94193f86e90872735d, type: 2}
+    a:
+      row: 4
+      col: 1
+    b:
+      row: 6
+      col: 0
+  obstacles: []
+  solution:
+    paths:
+    - path:
+      - row: 0
+        col: 2
+      - row: 0
+        col: 1
+      - row: 0
+        col: 0
+      - row: 1
+        col: 0
+      - row: 2
+        col: 0
+      - row: 3
+        col: 0
+      - row: 3
+        col: 1
+      - row: 3
+        col: 2
+      - row: 4
+        col: 2
+      - row: 4
+        col: 3
+      - row: 4
+        col: 4
+    - path:
+      - row: 1
+        col: 1
+      - row: 1
+        col: 2
+      - row: 1
+        col: 3
+      - row: 0
+        col: 3
+      - row: 0
+        col: 4
+      - row: 0
+        col: 5
+      - row: 0
+        col: 6
+      - row: 0
+        col: 7
+      - row: 0
+        col: 8
+      - row: 1
+        col: 8
+    - path:
+      - row: 1
+        col: 4
+      - row: 1
+        col: 5
+      - row: 1
+        col: 6
+      - row: 1
+        col: 7
+      - row: 2
+        col: 7
+      - row: 3
+        col: 7
+      - row: 4
+        col: 7
+      - row: 5
+        col: 7
+      - row: 6
+        col: 7
+      - row: 7
+        col: 7
+      - row: 7
+        col: 6
+      - row: 7
+        col: 5
+      - row: 7
+        col: 4
+      - row: 7
+        col: 3
+      - row: 7
+        col: 2
+      - row: 7
+        col: 1
+      - row: 6
+        col: 1
+      - row: 5
+        col: 1
+      - row: 5
+        col: 2
+      - row: 5
+        col: 3
+      - row: 5
+        col: 4
+      - row: 5
+        col: 5
+      - row: 4
+        col: 5
+      - row: 3
+        col: 5
+      - row: 3
+        col: 4
+      - row: 3
+        col: 3
+    - path:
+      - row: 2
+        col: 1
+      - row: 2
+        col: 2
+      - row: 2
+        col: 3
+      - row: 2
+        col: 4
+      - row: 2
+        col: 5
+      - row: 2
+        col: 6
+      - row: 3
+        col: 6
+      - row: 4
+        col: 6
+      - row: 5
+        col: 6
+      - row: 6
+        col: 6
+      - row: 6
+        col: 5
+      - row: 6
+        col: 4
+      - row: 6
+        col: 3
+      - row: 6
+        col: 2
+    - path:
+      - row: 2
+        col: 8
+      - row: 3
+        col: 8
+      - row: 4
+        col: 8
+      - row: 5
+        col: 8
+      - row: 6
+        col: 8
+      - row: 7
+        col: 8
+      - row: 8
+        col: 8
+      - row: 8
+        col: 7
+      - row: 8
+        col: 6
+      - row: 8
+        col: 5
+      - row: 8
+        col: 4
+      - row: 8
+        col: 3
+      - row: 8
+        col: 2
+      - row: 8
+        col: 1
+      - row: 8
+        col: 0
+      - row: 7
+        col: 0
+    - path:
+      - row: 4
+        col: 1
+      - row: 4
+        col: 0
+      - row: 5
+        col: 0
+      - row: 6
+        col: 0
