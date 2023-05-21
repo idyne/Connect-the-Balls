@@ -21,7 +21,7 @@ namespace FateGames.Core
         public void SaveToDevice(SaveData data)
         {
             BinaryFormatter formatter = new();
-            string path = Application.persistentDataPath + "/saveData.fate";
+            string path = Application.persistentDataPath + String.Format("/saveData-{0}.fate", Application.version);
             FileStream stream = new(path, FileMode.Create);
             formatter.Serialize(stream, data);
             stream.Close();
@@ -32,7 +32,7 @@ namespace FateGames.Core
         {
             if (!overrideSave)
             {
-                string path = Application.persistentDataPath + "/saveData.fate";
+                string path = Application.persistentDataPath + String.Format("/saveData-{0}.fate", Application.version);
                 if (File.Exists(path))
                 {
                     BinaryFormatter formatter = new();
@@ -81,7 +81,7 @@ namespace FateGames.Core
         [MenuItem("Fate/Delete Player Data")]
         static void DeletePlayerData()
         {
-            string path = Application.persistentDataPath + "/saveData.fate";
+            string path = Application.persistentDataPath + String.Format("/saveData-{0}.fate", Application.version);
             if (File.Exists(path))
                 File.Delete(path);
         }

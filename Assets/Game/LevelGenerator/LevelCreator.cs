@@ -49,6 +49,11 @@ public class LevelCreator : ScriptableObject
         {
             CreateLevel(id, levelDatas[id], solutionDatas[id]);
         }
+        levelDataTable.Sort();
+#if UNITY_EDITOR
+        EditorUtility.SetDirty(levelDataTable);
+        EditorUtility.SetDirty(this);
+#endif
         Debug.Log(levelDatas.Count + " levels created.");
     }
     public void CreateLevel(string id, string txt, string solutionTxt)

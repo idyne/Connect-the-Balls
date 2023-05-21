@@ -1,6 +1,9 @@
 using Lofelt.NiceVibrations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Services.Core;
+using Unity.Services.Core.Environments;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -48,8 +51,13 @@ namespace FateGames.Core
             base.Awake();
             if (duplicated) return;
             Initialize();
-            if (!sceneManager.IsLevel(UnityEngine.SceneManagement.SceneManager.GetActiveScene()))
-                sceneManager.LoadCurrentLevel();
+            IEnumerator routine()
+            {
+                yield return new WaitUntil(() => DemoStorePage.Initialized);
+                if (!sceneManager.IsLevel(UnityEngine.SceneManagement.SceneManager.GetActiveScene()))
+                    sceneManager.LoadCurrentLevel();
+            }
+            StartCoroutine(routine());
         }
 
         private void Start()
@@ -68,6 +76,7 @@ namespace FateGames.Core
             InitializeSoundManagement();
             InitializeHapticManagement();
         }
+
         private void InitializeGamePauser()
         {
             gamePauser = new(onPause, onResume, gameState);
@@ -103,7 +112,10 @@ namespace FateGames.Core
         public void FinishLevel(bool success)
         {
             if (success)
+            {
                 saveData.Value.Level++;
+                SaveToDevice();
+            }
             levelManager.FinishLevel(success);
         }
 

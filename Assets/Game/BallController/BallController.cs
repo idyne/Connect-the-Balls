@@ -9,6 +9,16 @@ using DG.Tweening;
 
 public class BallController : FateMonoBehaviour
 {
+    private static BallController instance = null;
+    public static BallController Instance
+    {
+        get
+        {
+            if (instance == null) instance = FindObjectOfType<BallController>();
+            return instance;
+        }
+    }
+    [SerializeReference] private RewardManager rewardManager;
     [SerializeField] private SaveDataVariable saveData;
     [SerializeField] private SoundEntity music;
     [SerializeField] private LayerMask ballLayerMask;
@@ -17,7 +27,7 @@ public class BallController : FateMonoBehaviour
     [SerializeField] private GameStateVariable gameState;
     [SerializeField] private UnityEvent onExplosionFinished;
     [SerializeField] private UnityEvent onHintUsed;
-    private static bool enableLog = true;
+    private static bool enableLog = false;
     private Camera mainCamera;
     public Ball selectedBall;
     public Stack<ICommand> littleCommands = new();
@@ -73,13 +83,13 @@ public class BallController : FateMonoBehaviour
         }
     }
 
-    private bool IsPathSolved(LevelData.Solution.Path path)
+    public bool IsPathSolved(LevelData.Solution.Path path)
     {
         LevelData.Solution.Coordinates coordinates = path.path[0];
         Ball pathBall = ballsRuntimeSet.Items.Where((ball) => ball.Grid.i == coordinates.col && ball.Grid.j == coordinates.row).ToArray()[0];
         if (!pathBall.IsHead)
         {
-            Debug.LogError("Not head!");
+            Debug.LogError("Not head!", pathBall);
             return false;
         }
         bool reverse = pathBall.Previous != null;
@@ -105,7 +115,12 @@ public class BallController : FateMonoBehaviour
 
     public void Hint()
     {
-        if (saveData.Value.HintCount <= 0) return;
+        if (selectedBall) return;
+        if (saveData.Value.HintCount <= 0)
+        {
+            rewardManager.HintReward();
+            return;
+        }
         LevelData levelData = Board.Instance.LevelData;
         LevelData.Solution.Path path = levelData.solution.paths[0];
         bool found = false;
@@ -126,7 +141,6 @@ public class BallController : FateMonoBehaviour
             found = true;
         }
         if (!found) return;
-        Debug.Log(found);
         LevelData.Solution.Coordinates coordinates = path.path[0];
         Ball pathBall = ballsRuntimeSet.Items.Where((ball) => ball.Grid.i == coordinates.col && ball.Grid.j == coordinates.row).ToArray()[0];
         SelectBall(pathBall, false);
@@ -144,6 +158,7 @@ public class BallController : FateMonoBehaviour
 
     public void Undo()
     {
+        if (selectedBall) return;
         if (this.commands.Count == 0) return;
         Stack<ICommand> commands = this.commands.Pop();
         while (commands.Count > 0)
@@ -156,6 +171,7 @@ public class BallController : FateMonoBehaviour
 
     public void Restart()
     {
+        if (selectedBall) return;
         while (commands.Count > 0)
             Undo();
     }
@@ -483,13 +499,16 @@ public class BallController : FateMonoBehaviour
     {
         IEnumerator routine()
         {
-            WaitForSeconds waitForSeconds = new(0.7f / ballsRuntimeSet.Items.Count);
+            float seconds = 0.7f / ballsRuntimeSet.Items.Count;
+            WaitForSeconds waitForSeconds = new(seconds);
             int count = 0;
             int total = ballsRuntimeSet.Items.Count;
+            int step = Mathf.CeilToInt(0.02f / seconds);
             foreach (Ball ball in ballsRuntimeSet.Items.OrderBy((ball) => ball.transform.position.z).ThenBy((ball) => ball.transform.position.x))
             {
                 ball.Explode();
-                ball.PlayExplodeSound(0.5f + count * 1f / total);
+                if (count % step == 0)
+                    ball.PlayExplodeSound(0.5f + count * 1f / total);
                 count++;
                 yield return waitForSeconds;
             }
