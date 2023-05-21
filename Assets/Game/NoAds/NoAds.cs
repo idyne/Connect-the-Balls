@@ -2,9 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FateGames.Core;
+using UnityEngine.Purchasing;
 
 public class NoAds : MonoBehaviour
 {
+    private static NoAds instance = null;
+    public static NoAds Instance
+    {
+
+        get
+        {
+            if (instance == null) instance = FindObjectOfType<NoAds>();
+            return instance;
+        }
+    }
     [SerializeField] private Canvas canvas;
     [SerializeField] private SaveDataVariable saveData;
 
@@ -25,6 +36,10 @@ public class NoAds : MonoBehaviour
     public void Log(string message)
     {
         Debug.Log(message);
+    }
+    public void OnPurchaseClicked()
+    {
+        DemoStorePage.Instance.HandlePurchase("com.voyager.connectballs.removeadvertisement");
     }
 }
 

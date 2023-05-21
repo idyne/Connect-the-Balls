@@ -6,14 +6,16 @@ using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
 
-public class DemoStorePage : MonoBehaviour, IDetailedStoreListener
+public class DemoStorePage : Singleton<DemoStorePage>, IDetailedStoreListener
 {
     public static bool Initialized { get; private set; } = false;
     //[SerializeField] private GameObject noAdsPrefab;
     private IStoreController storeController;
     private IExtensionProvider extensionProvider;
-    private async void Awake()
+    protected override async void Awake()
     {
+        base.Awake();
+        if (duplicated) return;
         InitializationOptions options = new();
         options.
 #if UNITY_EDITOR || DEBUG
@@ -46,6 +48,11 @@ public class DemoStorePage : MonoBehaviour, IDetailedStoreListener
         Initialized = true;
         //Instantiate(noAdsPrefab);
     }
+
+    public void HandlePurchase(string productID)
+    {
+        storeController.InitiatePurchase(productID);
+    }
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
     {
         storeController = controller;
@@ -75,6 +82,7 @@ public class DemoStorePage : MonoBehaviour, IDetailedStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
     {
-        throw new System.NotImplementedException();
+        NoAds.Instance.EnableNoAds();
+        return PurchaseProcessingResult.Complete;
     }
 }
