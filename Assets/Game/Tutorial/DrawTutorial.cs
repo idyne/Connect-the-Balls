@@ -107,8 +107,6 @@ public class DrawTutorial : FateMonoBehaviour
     }
     public void PlayEffect()
     {
-        
-
         effect.Play();
     }
 }

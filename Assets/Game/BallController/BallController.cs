@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.EnhancedTouch;
 using System.Linq;
 using UnityEngine.Events;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class BallController : FateMonoBehaviour
 {
@@ -196,6 +197,7 @@ public class BallController : FateMonoBehaviour
             switch (touch.phase)
             {
                 case TouchPhase.Began:
+                    if (EventSystem.current.currentSelectedGameObject || EventSystem.current.IsPointerOverGameObject()) return;
                     SelectBall(touch.position);
                     break;
                 case TouchPhase.Moved:
@@ -218,6 +220,7 @@ public class BallController : FateMonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (EventSystem.current.currentSelectedGameObject || EventSystem.current.IsPointerOverGameObject()) return;
             SelectBall(Input.mousePosition);
         }
         else if (Input.GetMouseButton(0))
@@ -499,6 +502,7 @@ public class BallController : FateMonoBehaviour
     {
         IEnumerator routine()
         {
+            yield return new WaitForSeconds(1);
             float seconds = 0.7f / ballsRuntimeSet.Items.Count;
             WaitForSeconds waitForSeconds = new(seconds);
             int count = 0;
