@@ -141,7 +141,7 @@ namespace FateGames.Core
 
         public void SaveToDevice()
         {
-            if (overrideSave) return;
+            if (overrideSave || saveManager == null) return;
             saveManager.SaveToDevice(saveData.Value);
             PlayerPrefs.SetFloat("TotalPlaytime", Time.time - lastTotalPlaytimeSaveTime + totalPlaytime);
             lastTotalPlaytimeSaveTime = Time.time;
