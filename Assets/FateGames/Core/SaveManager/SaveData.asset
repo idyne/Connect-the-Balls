@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SaveData
   m_EditorClassIdentifier: 
   value:
-    Level: 1
-    HintCount: 100
+    Level: 28
+    HintCount: 92
     NoAds: 1
   OnValueChanged:
     m_PersistentCalls:

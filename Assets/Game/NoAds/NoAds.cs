@@ -27,11 +27,16 @@ public class NoAds : MonoBehaviour
     {
         canvas.enabled = false;
     }
+    public void Show()
+    {
+        canvas.enabled = true;
+    }
     public void EnableNoAds()
     {
         saveData.Value.NoAds = true;
         GameManager.Instance.SaveToDevice();
         Hide();
+        NoAdsButton.Instance.Hide();
     }
     public void Log(string message)
     {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "173764571822",
+    "project_id": "connect-the-balls",
+    "storage_bucket": "connect-the-balls.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173764571822:android:c7cd6089ed085b6438733f",
+        "android_client_info": {
+          "package_name": "com.voyager.connectballs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173764571822-idoo5ipc1bv1pdlglrvmt7o1gur56odi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZV9QGCzIXOBGG-K8CREQSAkf88vtQog0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173764571822-idoo5ipc1bv1pdlglrvmt7o1gur56odi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

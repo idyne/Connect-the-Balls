@@ -1,3 +1,4 @@
+using GameAnalyticsSDK;
 using Lofelt.NiceVibrations;
 using System;
 using System.Collections;
@@ -45,19 +46,14 @@ namespace FateGames.Core
         private LevelManager levelManager;
         private SoundManager soundManager;
         private HapticManager hapticManager;
+        public float totalPlaytime { get => PlayerPrefs.GetFloat("TotalPlaytime", 0); private set => PlayerPrefs.SetFloat("TotalPlaytime", value); }
+        private float lastTotalPlaytimeSaveTime = 0;
 
         protected override void Awake()
         {
             base.Awake();
             if (duplicated) return;
-            Initialize();
-            IEnumerator routine()
-            {
-                yield return new WaitUntil(() => DemoStorePage.Initialized);
-                if (!sceneManager.IsLevel(UnityEngine.SceneManagement.SceneManager.GetActiveScene()))
-                    sceneManager.LoadCurrentLevel();
-            }
-            StartCoroutine(routine());
+
         }
 
         private void Start()
@@ -75,6 +71,13 @@ namespace FateGames.Core
             InitializeLevelManagement();
             InitializeSoundManagement();
             InitializeHapticManagement();
+            IEnumerator routine()
+            {
+                yield return new WaitUntil(() => DemoStorePage.Initialized);
+                if (!sceneManager.IsLevel(UnityEngine.SceneManagement.SceneManager.GetActiveScene()))
+                    sceneManager.LoadCurrentLevel();
+            }
+            StartCoroutine(routine());
         }
 
         private void InitializeGamePauser()
@@ -106,14 +109,19 @@ namespace FateGames.Core
 
         public void StartLevel()
         {
+            SDKManager.Instance.ShowInterstitial();
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "Level_Progress", saveData.Value.Level);
             levelManager.StartLevel();
         }
 
         public void FinishLevel(bool success)
         {
+            GameAnalytics.NewProgressionEvent(success ? GAProgressionStatus.Complete : GAProgressionStatus.Fail, "Level_Progress", saveData.Value.Level);
             if (success)
             {
                 saveData.Value.Level++;
+                if (saveData.Value.Level % 5 == 0)
+                    saveData.Value.HintCount++;
                 SaveToDevice();
             }
             levelManager.FinishLevel(success);
@@ -127,7 +135,7 @@ namespace FateGames.Core
         private IEnumerator AutoSaveRoutine()
         {
             yield return waitForAutoSavePeriod;
-            saveManager.SaveToDevice(saveData.Value);
+            SaveToDevice();
             yield return AutoSaveRoutine();
         }
 
@@ -135,6 +143,9 @@ namespace FateGames.Core
         {
             if (overrideSave) return;
             saveManager.SaveToDevice(saveData.Value);
+            PlayerPrefs.SetFloat("TotalPlaytime", Time.time - lastTotalPlaytimeSaveTime + totalPlaytime);
+            lastTotalPlaytimeSaveTime = Time.time;
+            Debug.Log($"Total playtime: {totalPlaytime}");
         }
 
         public void SetTargetFrameRate(int targetFrameRate) => Application.targetFrameRate = targetFrameRate;
@@ -189,9 +200,11 @@ namespace FateGames.Core
 
         void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
+            if (sceneManager == null) return;
             if (sceneManager.IsLevel(scene))
             {
                 gameState.Value = GameState.BEFORE_START;
+
                 if (autoStart)
                     StartLevel();
             }
