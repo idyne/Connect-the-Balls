@@ -208,7 +208,7 @@ public class MaxSdkUnityEditor : MaxSdkBase
     /// </summary>
     public static SdkConfiguration GetSdkConfiguration()
     {
-        return SdkConfiguration.CreateEmpty();
+        return null;
     }
 
     /// <summary>

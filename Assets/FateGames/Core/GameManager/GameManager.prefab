@@ -280,9 +280,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameState: {fileID: 11400000, guid: 35af722527cf21148bdd90a70a23f45e, type: 2}
   defaultTargetFrameRate: 60
-  autoSave: 1
+  autoSave: 0
   autoSavePeriod: 10
-  overrideSave: 0
+  overrideSave: 1
   saveData: {fileID: 11400000, guid: 2fbe29c554af5d84b9bdecaab48fec86, type: 2}
   overrideSaveData: {fileID: 11400000, guid: b5d6f087333e7a046997d6bebf2f27b2, type: 2}
   firstLevelSceneIndex: 1
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8681148343581878937}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a0d0b314a362074c9e4d6c49375eb3d, type: 3}
   m_Name: 

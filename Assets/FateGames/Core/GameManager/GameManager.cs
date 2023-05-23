@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -53,7 +54,7 @@ namespace FateGames.Core
         {
             base.Awake();
             if (duplicated) return;
-
+            Initialize();
         }
 
         private void Start()
@@ -71,13 +72,11 @@ namespace FateGames.Core
             InitializeLevelManagement();
             InitializeSoundManagement();
             InitializeHapticManagement();
-            IEnumerator routine()
-            {
-                yield return new WaitUntil(() => DemoStorePage.Initialized);
-                if (!sceneManager.IsLevel(UnityEngine.SceneManagement.SceneManager.GetActiveScene()))
-                    sceneManager.LoadCurrentLevel();
-            }
-            StartCoroutine(routine());
+            Screen.SetResolution(1080, 1920, true);
+
+            if (!sceneManager.IsLevel(UnityEngine.SceneManagement.SceneManager.GetActiveScene()))
+                sceneManager.LoadCurrentLevel();
+
         }
 
         private void InitializeGamePauser()
@@ -109,7 +108,7 @@ namespace FateGames.Core
 
         public void StartLevel()
         {
-            SDKManager.Instance.ShowInterstitial();
+            //SDKManager.Instance.ShowInterstitial();
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "Level_Progress", saveData.Value.Level);
             levelManager.StartLevel();
         }

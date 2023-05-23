@@ -18,7 +18,7 @@ public class CameraController : FateMonoBehaviour
 
     public void AdjustPosition()
     {
-        float aspectRatio = (Screen.width / (float)Screen.height);
+        float aspectRatio = (1080 / (float)1920);
         Vector3 pos = new Vector3(board.LevelData.width / 2f, board.LevelData.width * 2f / aspectRatio, board.LevelData.length / 2f);
         transform.DOMove(pos, 1).SetEase(Ease.OutBack);
     }

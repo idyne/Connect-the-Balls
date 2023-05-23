@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value:
     Level: 1
-    HintCount: 100
+    HintCount: 20
+    NoAds: 1
   OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
