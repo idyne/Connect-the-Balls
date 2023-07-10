@@ -67,17 +67,17 @@ public class DemoStorePage : Singleton<DemoStorePage>, IDetailedStoreListener
 
     public void OnInitializeFailed(InitializationFailureReason error, string message)
     {
-        throw new System.NotImplementedException();
+        Debug.LogError($"Store page initialize failed\nmessage: {message}\nreason: {error}");
     }
 
     public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
     {
-        throw new System.NotImplementedException();
+        Debug.LogError($"Purchase failed\nmessage: {failureDescription.message}\nreason: {failureDescription.reason}");
     }
 
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
     {
-        throw new System.NotImplementedException();
+        Debug.LogError($"Purchase failed\nreason: {failureReason}");
     }
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
